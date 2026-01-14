@@ -1,0 +1,73 @@
+package yur;
+import javax.swing.*;
+import java.awt.*;
+import java.util.Random;
+
+public class game extends JFrame {
+
+    private int randomNumber;
+    private JTextField guessField;
+    private JLabel messageLabel;
+
+    public game() {
+        setTitle("Guess a Number (1 - 10)");
+        setSize(400, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // Generate random number between 1 and 10
+        randomNumber = new Random().nextInt(10) + 1;
+
+        JLabel instructionLabel = new JLabel("Guess a number between 1 and 10:");
+        guessField = new JTextField(10);
+        JButton guessButton = new JButton("Guess");
+        JButton resetButton = new JButton("Reset");
+        messageLabel = new JLabel(" ", SwingConstants.CENTER);
+
+        JPanel panel = new JPanel(new GridLayout(4, 1, 5, 5));
+        JPanel inputPanel = new JPanel();
+
+        inputPanel.add(guessField);
+        inputPanel.add(guessButton);
+        inputPanel.add(resetButton);
+
+        panel.add(instructionLabel);
+        panel.add(inputPanel);
+        panel.add(messageLabel);
+
+        add(panel);
+
+        guessButton.addActionListener(e -> checkGuess());
+        resetButton.addActionListener(e -> resetGame());
+    }
+
+    private void checkGuess() {
+        try {
+            int guess = Integer.parseInt(guessField.getText());
+
+            if (guess < 1 || guess > 10) {
+                messageLabel.setText("Enter a number from 1 to 10.");
+            } else if (guess < randomNumber) {
+                messageLabel.setText("Too low!");
+            } else if (guess > randomNumber) {
+                messageLabel.setText("Too high!");
+            } else {
+                messageLabel.setText("🎉 Correct! You guessed it!");
+            }
+        } catch (NumberFormatException e) {
+            messageLabel.setText("Please enter a valid number.");
+        }
+    }
+
+    private void resetGame() {
+        randomNumber = new Random().nextInt(10) + 1;
+        guessField.setText("");
+        messageLabel.setText("New number generated. Try again!");
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new game().setVisible(true);
+        });
+    }
+}
