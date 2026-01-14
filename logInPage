@@ -1,0 +1,70 @@
+package yur;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class logIn extends JFrame implements ActionListener {
+
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JButton loginButton;
+    private JLabel messageLabel;
+
+    public logIn() {
+        // Frame settings
+        setTitle("Login Page");
+        setSize(350, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); // center screen
+
+        // Panel
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(4, 2, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Components
+        JLabel usernameLabel = new JLabel("Username:");
+        JLabel passwordLabel = new JLabel("Password:");
+
+        usernameField = new JTextField();
+        passwordField = new JPasswordField();
+
+        loginButton = new JButton("Login");
+        loginButton.addActionListener(this);
+
+        messageLabel = new JLabel("");
+        messageLabel.setForeground(Color.RED);
+
+        // Add components to panel
+        panel.add(usernameLabel);
+        panel.add(usernameField);
+        panel.add(passwordLabel);
+        panel.add(passwordField);
+        panel.add(new JLabel()); // empty cell
+        panel.add(loginButton);
+        panel.add(messageLabel);
+
+        // Add panel to frame
+        add(panel);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String username = usernameField.getText();
+        String password = String.valueOf(passwordField.getPassword());
+
+        // Simple login check
+        if (username.equals("admin") && password.equals("1234")) {
+            JOptionPane.showMessageDialog(this, "Login Successful!");
+        } else {
+            messageLabel.setText("Invalid username or password");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new logIn().setVisible(true);
+        });
+    }
+}
